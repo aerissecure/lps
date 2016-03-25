@@ -5,5 +5,13 @@ For example, to count the number of connections per second as identified by TCP 
 
     tcpdump -i eth0 -n "tcp[tcpflags] & tcp-syn != 0" | ./lps
 
+To count the number of connections using conntrack (the preferred method), you could use one of the following:
 
+    # count all new connections
+    conntrack -E -e NEW | lps
+    
+    # count tcp connections
+    conntrack -E -e NEW -p tcp | lps
+    
 lps also accepts an interval parameter `-i` that allows you to specify the frequency at which the rate will be printed.
+
