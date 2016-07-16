@@ -3,7 +3,7 @@ A simple program for counting the lines per second of stdin. This could be used 
 
 For example, to count the number of connections per second as identified by TCP SYN flags, you could use the following:
 
-    tcpdump -i eth0 -n "tcp[tcpflags] & tcp-syn != 0" | ./lps
+    tcpdump -i eth0 -n "tcp[tcpflags] & tcp-syn != 0" | lps
 
 To count the number of connections using conntrack (the preferred method), you could use one of the following:
 
