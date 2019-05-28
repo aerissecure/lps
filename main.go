@@ -3,10 +3,10 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"time"
-	"flag"
 )
 
 func readLines(c chan int) {
@@ -28,7 +28,9 @@ func readLines(c chan int) {
 
 func main() {
 	var d time.Duration
+	var t bool
 	flag.DurationVar(&d, "i", time.Second, "Update interval")
+	flag.BoolVar(&t, "t", false, "Include timestamp")
 	flag.Parse()
 	line := 0
 	count := 0
@@ -40,7 +42,11 @@ func main() {
 		select {
 		// print counts
 		case <-tick:
-			fmt.Println(float64(line-count)/d.Seconds(), "/sec")
+			prnt := fmt.Sprintf("%v /sec", float64(line-count)/d.Seconds())
+			if t {
+				prnt = fmt.Sprintf("%s\t%s", prnt, time.Now().UTC().Format("Mon Jan 2 15:04:05 UTC 2006"))
+			}
+			fmt.Println(prnt)
 			count = line
 		// update counts
 		case line = <-c:
